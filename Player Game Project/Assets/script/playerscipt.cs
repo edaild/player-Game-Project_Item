@@ -10,8 +10,6 @@ using UnityEngine.EventSystems;
 public class playerscipt : MonoBehaviour
 {
     public float speed;
-    public GameObject[] weapons;
-    public bool[] hasweapons;
 
     float hAxis;
     float vAxis;
@@ -19,7 +17,7 @@ public class playerscipt : MonoBehaviour
     bool WDown;
     bool jump;
 
-    bool iDown;
+
     bool isJump;
 
     Vector3 moveVec;
@@ -40,7 +38,7 @@ public class playerscipt : MonoBehaviour
         Move();
         Turn();
         Jump();
-        Interation();
+
     }
 
 
@@ -50,10 +48,11 @@ public class playerscipt : MonoBehaviour
         vAxis = Input.GetAxisRaw("Vertical");
         WDown = Input.GetButton("wolk");
         jump =  Input.GetButtonDown("Jump");
-        iDown = Input.GetButtonDown("Interation");
+
 
 
     }
+    public int itemCount;
 
     void Move()
     {
@@ -80,21 +79,6 @@ public class playerscipt : MonoBehaviour
         }
     }
 
-    void Interation()
-    {
-        if(iDown && nearObject != null && !isJump)
-        {
-            if(nearObject.tag == "weapon")
-            {
-                Item item = nearObject.GetComponent<Item>();
-                int weaponIndex = item.value;
-                hasweapons[weaponIndex] = true; // 아이템 정보를 가져와서 해당 무기 입수를 체크
-                print("무기가 들어왔습니다.");
-                Destroy(nearObject);
-            }
-        }
-    }
-
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -105,19 +89,5 @@ public class playerscipt : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Weapon")
-            nearObject = other.gameObject;
-
-        Debug.Log(other.gameObject);
-        
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Weapon")
-            nearObject = null;
-    }
 
 }
